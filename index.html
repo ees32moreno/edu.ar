@@ -1,0 +1,2745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Institucional — E.E.S. Nº 32 | Moreno</title>
+    <link rel="icon" type="image/png" href="imagenes/escudo.png">
+    <style>
+        :root {
+            --bg-dark: #080d19;
+            --bg-card: #0f1629;
+            --bg-glass: rgba(11, 18, 35, 0.78);
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-glow: #93c5fd;
+            --gold: #c8a951;
+            --gold-light: #e2c87a;
+            --gold-soft: #d4b860;
+            --text: #e2e8f0;
+            --text-secondary: #b0bdd0;
+            --text-muted: #7b8ca5;
+            --border-glass: rgba(255, 255, 255, 0.07);
+            --border-subtle: rgba(255, 255, 255, 0.13);
+            --shadow-glow: 0 0 50px rgba(59, 130, 246, 0.18);
+            --shadow-card: 0 10px 36px rgba(0, 0, 0, 0.4);
+            --radius-xl: 24px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --radius-xs: 7px;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        /* ORBES DE LUZ DECORATIVOS (GLOW AMBIENTAL) */
+        .orb-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+            opacity: 0.09;
+        }
+        .orb-1 {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.5) 0%, transparent 70%);
+            top: -180px;
+            left: -120px;
+            animation: orbFloat1 15s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 430px;
+            height: 430px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
+            bottom: -120px;
+            right: -90px;
+            animation: orbFloat2 17s ease-in-out infinite;
+        }
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: orbFloat3 19s ease-in-out infinite;
+            opacity: 0.05;
+        }
+        @keyframes orbFloat1 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(50px, -35px) scale(1.12);
+            }
+            50% {
+                transform: translate(-25px, -70px) scale(0.94);
+            }
+            75% {
+                transform: translate(35px, 25px) scale(1.06);
+            }
+        }
+        @keyframes orbFloat2 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(-55px, 35px) scale(1.1);
+            }
+            50% {
+                transform: translate(25px, -45px) scale(0.9);
+            }
+            75% {
+                transform: translate(-35px, -25px) scale(1.07);
+            }
+        }
+        @keyframes orbFloat3 {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            33% {
+                transform: translate(-30%, -55%) scale(1.15);
+            }
+            66% {
+                transform: translate(-70%, -45%) scale(0.88);
+            }
+        }
+
+        /* BADGE CON PULSO DE VIDA (RADAR) */
+        .badge-activo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 6px 16px;
+            border-radius: 22px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #4ade80;
+            letter-spacing: 0.3px;
+            position: relative;
+        }
+        .badge-activo::before {
+            content: '';
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 2s ease-in-out infinite;
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            flex-shrink: 0;
+        }
+        @keyframes pulse-dot {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.8);
+            }
+            60% {
+                box-shadow: 0 0 0 14px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        /* MICROINTERACCIONES MEJORADAS */
+        .card,
+        .project-card,
+        .news-card,
+        .gallery-item,
+        .materia-card,
+        .recurso-card,
+        .mural-destacado,
+        .btn-hero,
+        .btn-materia,
+        .btn-recurso,
+        .btn-leer-mas,
+        .btn-artistico,
+        .audio-btn,
+        .vocal-btn,
+        .game-btn,
+        .taller-btn,
+        .clase-btn,
+        .maps-link,
+        .gallery-filter-btn,
+        .close-gallery-btn {
+            transition: all 0.25s var(--transition-smooth);
+        }
+        .card:hover,
+        .project-card:hover,
+        .news-card:hover,
+        .materia-card:hover,
+        .recurso-card:hover,
+        .mural-destacado:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55), 0 0 36px rgba(59, 130, 246, 0.1);
+            border-color: var(--border-subtle);
+        }
+        .btn-hero:hover,
+        .btn-materia:hover,
+        .btn-recurso:hover,
+        .btn-leer-mas:hover,
+        .btn-artistico:hover,
+        .maps-link:hover {
+            transform: translateY(-3px) scale(1.04);
+        }
+        .btn-hero:active,
+        .btn-materia:active,
+        .btn-recurso:active,
+        .btn-leer-mas:active,
+        .btn-artistico:active,
+        .maps-link:active {
+            transform: scale(0.94);
+            transition: transform 0.1s;
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+        }
+        .audio-btn:hover,
+        .vocal-btn:hover,
+        .game-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+        .taller-btn:hover,
+        .clase-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+        }
+        .gallery-filter-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+        }
+        .close-gallery-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: rgba(239, 68, 68, 0.22);
+            box-shadow: 0 0 22px rgba(239, 68, 68, 0.3);
+        }
+        .materia-card:hover .materia-card-img img {
+            transform: scale(1.08);
+        }
+        .recurso-card:hover .recurso-icon {
+            transform: scale(1.18);
+        }
+        .news-card:hover .news-card-img {
+            transform: scale(1.05);
+        }
+
+        /* BOTÓN VOLVER ARRIBA */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1050;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.22);
+            border: 1px solid rgba(147, 197, 253, 0.35);
+            color: #fff;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.4s var(--transition-smooth);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 32px rgba(59, 130, 246, 0.5);
+            transform: translateY(-6px) scale(1.08);
+        }
+        .back-to-top:active {
+            transform: scale(0.9);
+            transition: transform 0.12s;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 28px;
+            background: rgba(8, 13, 25, 0.68);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid var(--border-glass);
+            transition: all 0.4s var(--transition-smooth);
+            gap: 16px;
+        }
+        header.scrolled {
+            background: rgba(8, 13, 25, 0.92);
+            box-shadow: 0 6px 34px rgba(0, 0, 0, 0.55);
+            padding: 8px 28px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .logo-img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.32);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: #1e293b;
+            flex-shrink: 0;
+        }
+        .header-left:hover .logo-img {
+            transform: scale(1.1);
+            box-shadow: 0 0 36px rgba(59, 130, 246, 0.5);
+        }
+        .header-title h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .header-title .sub-header {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            transition: all 0.3s;
+        }
+        .header-title .sub-header.highlight {
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-shadow: 0 0 8px rgba(200, 169, 81, 0.5);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-desktop {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-desktop a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 22px;
+            transition: all 0.25s;
+            white-space: nowrap;
+            letter-spacing: 0.1px;
+        }
+        .nav-desktop a:hover,
+        .nav-desktop a.active-link {
+            color: #fff;
+            background: rgba(59, 130, 246, 0.26);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.28);
+            transform: scale(1.04);
+        }
+        .menu-toggle {
+            font-size: 1.7rem;
+            cursor: pointer;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 10px;
+            transition: background 0.3s, transform 0.25s;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            user-select: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.06);
+        }
+
+        /* MENÚ LATERAL MÓVIL */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 310px;
+            max-width: 85vw;
+            height: 100vh;
+            background: rgba(13, 20, 35, 0.96);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            z-index: 1200;
+            padding: 85px 22px 28px;
+            transition: right 0.42s var(--transition-smooth);
+            border-left: 1px solid var(--border-glass);
+            box-shadow: -10px 0 44px rgba(0, 0, 0, 0.55);
+            overflow-y: auto;
+        }
+        .side-menu.active {
+            right: 0;
+        }
+        .side-menu a {
+            display: block;
+            color: var(--text);
+            text-decoration: none;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.98rem;
+            transition: all 0.25s;
+            letter-spacing: 0.2px;
+        }
+        .side-menu a:hover,
+        .side-menu a.active-link {
+            background: rgba(59, 130, 246, 0.2);
+            color: #fff;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+            transform: scale(1.02);
+        }
+        .side-menu-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.25s;
+        }
+        .side-menu-close:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.1);
+        }
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.58);
+            z-index: 1150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* HERO SLIDER */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.38) saturate(1.15);
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            transform: scale(1.06);
+        }
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1.03);
+            transition: opacity 1.2s ease-in-out, transform 6s ease-in-out;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(8, 13, 25, 0.35) 0%, rgba(8, 13, 25, 0.82) 75%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 30px;
+            animation: fadeInUpHero 1.3s var(--transition-smooth);
+        }
+        @keyframes fadeInUpHero {
+            from {
+                opacity: 0;
+                transform: translateY(44px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-content .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(147, 197, 253, 0.35);
+            color: var(--blue-glow);
+            padding: 7px 22px;
+            border-radius: 30px;
+            font-size: 0.84rem;
+            letter-spacing: 0.6px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .hero-content h2 {
+            font-size: clamp(2.3rem, 5.8vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 12px;
+            color: #fff;
+            text-shadow: 0 5px 34px rgba(0, 0, 0, 0.55);
+            line-height: 1.15;
+        }
+        .hero-content p {
+            font-size: clamp(1rem, 2.3vw, 1.4rem);
+            max-width: 680px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+        }
+        .btn-hero {
+            display: inline-block;
+            padding: 15px 38px;
+            background: var(--blue);
+            color: #fff;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.35s;
+            box-shadow: 0 9px 30px rgba(59, 130, 246, 0.42);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hero:hover {
+            background: #2563eb;
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.58);
+        }
+        .btn-hero:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounceDown 2.2s infinite;
+            cursor: pointer;
+            color: #fff;
+            font-size: 2.2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .hero-scroll-indicator:hover {
+            opacity: 1;
+        }
+        @keyframes bounceDown {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(13px);
+            }
+        }
+        .hero-dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 10px;
+        }
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hero-dot.active-dot {
+            background: #fff;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+            transform: scale(1.3);
+        }
+
+        /* SECCIONES GENERALES */
+        .section {
+            padding: 90px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 1;
+        }
+        .sub-seccion {
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .sub-seccion:first-of-type {
+            border-top: none;
+            margin-top: 10px;
+        }
+        .section-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2.8px;
+            color: var(--blue-light);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .section h2 {
+            font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.4px;
+            color: #fff;
+        }
+        .section .subtitle {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+        .section .intro-text {
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 36px;
+            font-size: 1rem;
+            background: rgba(59, 130, 246, 0.06);
+            border-left: 3px solid var(--blue);
+            padding: 16px 22px;
+            border-radius: 0 12px 12px 0;
+            line-height: 1.7;
+        }
+
+        /* TARJETAS GLASS */
+        .card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s var(--transition-smooth);
+            cursor: default;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            border-left: 2px solid rgba(255, 255, 255, 0.14);
+            margin-left: 8px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+            padding-left: 24px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+            border: 3px solid var(--bg-dark);
+        }
+        .timeline-year {
+            font-weight: 700;
+            color: var(--blue-light);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .timeline-text {
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* GRID PROYECTOS */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 24px;
+        }
+        .project-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.25s var(--transition-smooth);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .project-card-img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .project-card-body {
+            padding: 20px;
+        }
+        .project-card-body h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .project-card-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* MATERIAS */
+        .materias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .materia-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            cursor: default;
+        }
+        .materia-card-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #1a2740;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .materia-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .materia-card-body {
+            padding: 22px 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .materia-card-body h3 {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+        .materia-card-body p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-bottom: 16px;
+            flex: 1;
+            line-height: 1.5;
+        }
+        .btn-materia {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.2px;
+            align-self: flex-start;
+        }
+        .btn-materia:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 28px rgba(59, 130, 246, 0.45);
+            transform: translateY(-3px) scale(1.04);
+            color: #fff;
+        }
+
+        /* RECURSOS */
+        .recursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+        .recurso-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 26px 22px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s var(--transition-smooth);
+            text-align: center;
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .recurso-icon {
+            font-size: 2.8rem;
+            transition: transform 0.3s;
+        }
+        .recurso-card h4 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.1px;
+        }
+        .recurso-status {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 4px;
+            padding: 6px 14px;
+            background: rgba(251, 191, 36, 0.07);
+            border-radius: 16px;
+            border: 1px dashed rgba(251, 191, 36, 0.3);
+            letter-spacing: 0.2px;
+        }
+        .recurso-status.disponible {
+            background: rgba(34, 197, 94, 0.07);
+            border-color: rgba(34, 197, 94, 0.35);
+            color: #4ade80;
+        }
+        .btn-recurso {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 18px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            color: var(--blue-light);
+            font-weight: 600;
+            font-size: 0.84rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.2px;
+        }
+        .btn-recurso:hover {
+            background: rgba(59, 130, 246, 0.28);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        /* GALERÍA */
+        .gallery-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+            justify-content: center;
+        }
+        .gallery-filter-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 26px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.88rem;
+            letter-spacing: 0.2px;
+            transition: all 0.25s;
+            white-space: nowrap;
+        }
+        .gallery-filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .gallery-filter-btn.active-filter {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.4);
+            font-weight: 700;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+        .gallery-item {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            background: #1e293b;
+            transition: all 0.25s var(--transition-smooth);
+            position: relative;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        .gallery-item .gallery-category-tag {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-size: 0.72rem;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-md);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            transform: scale(0.9);
+            transition: transform 0.4s;
+        }
+        .lightbox.active img {
+            transform: scale(1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        /* NOTICIAS */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 22px;
+        }
+        .news-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s var(--transition-smooth);
+            cursor: default;
+        }
+        .news-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: transform 0.5s;
+        }
+        .news-card-body {
+            padding: 20px 22px;
+        }
+        .news-date {
+            font-size: 0.76rem;
+            color: var(--blue-light);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .news-card-body h4 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .news-card-body p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+        .btn-leer-mas {
+            display: inline-block;
+            padding: 8px 18px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            color: var(--blue-light);
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.2px;
+        }
+        .btn-leer-mas:hover {
+            background: rgba(59, 130, 246, 0.28);
+            color: #fff;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.25);
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        /* GUARANÍ */
+        .guarani-section {
+            background: linear-gradient(160deg, #0e1a0e 0%, #080d19 55%, #0c1911 100%);
+            border-radius: var(--radius-xl);
+            padding: 48px 28px;
+            margin: 20px 0;
+            border: 1px solid rgba(200, 169, 81, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .guarani-section::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(200, 169, 81, 0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .guarani-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.025;
+            background-image: repeating-linear-gradient(45deg, #c8a951 0, #c8a951 1px, transparent 1px, transparent 20px), repeating-linear-gradient(-45deg, #c8a951 0, #c8a951 1px, transparent 1px, transparent 20px);
+            pointer-events: none;
+        }
+        .guarani-content {
+            position: relative;
+            z-index: 1;
+        }
+        .guarani-content h3 {
+            color: var(--gold-light);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+        .audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 22px;
+            background: rgba(200, 169, 81, 0.1);
+            border: 1px solid rgba(200, 169, 81, 0.28);
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--gold-light);
+            font-weight: 600;
+            transition: all 0.25s;
+            margin: 6px 8px 6px 0;
+            font-size: 0.94rem;
+            user-select: none;
+        }
+        .audio-btn:hover {
+            background: rgba(200, 169, 81, 0.2);
+            box-shadow: 0 0 24px rgba(200, 169, 81, 0.2);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .audio-btn.playing {
+            background: rgba(200, 169, 81, 0.3);
+            box-shadow: 0 0 30px rgba(200, 169, 81, 0.38);
+            animation: pulseGold 1.2s ease-in-out infinite;
+        }
+        @keyframes pulseGold {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(200, 169, 81, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 44px rgba(200, 169, 81, 0.55);
+            }
+        }
+        .audio-btn .icon-play {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #080d19;
+            flex-shrink: 0;
+        }
+        .audio-btn.playing .icon-play {
+            background: #e2c87a;
+            animation: blinkIcon 0.5s ease-in-out infinite;
+        }
+        @keyframes blinkIcon {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.35;
+            }
+        }
+        .audio-warning {
+            display: none;
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            animation: fadeInMsg 0.3s;
+            font-weight: 500;
+        }
+        .audio-warning.show {
+            display: block;
+        }
+        .taller-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 40px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            transition: all 0.25s;
+            margin: 10px 12px 10px 0;
+        }
+        .taller-btn:hover {
+            background: rgba(59, 130, 246, 0.28);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transform: translateY(-4px) scale(1.04);
+        }
+        .taller-btn.active-taller {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 34px rgba(59, 130, 246, 0.5);
+        }
+        .clase-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.2px;
+            transition: all 0.25s;
+            margin: 5px 7px 5px 0;
+        }
+        .clase-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .clase-btn.active-clase {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(59, 130, 246, 0.4);
+        }
+        .clase-content {
+            display: none;
+            margin-top: 20px;
+            animation: fadeInMsg 0.45s;
+        }
+        .clase-content.visible {
+            display: block;
+        }
+
+        /* CONVERSACIÓN GUARANÍ */
+        .conversacion-guarani {
+            background: rgba(200, 169, 81, 0.06);
+            border: 1px solid rgba(200, 169, 81, 0.2);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin: 16px 0;
+            max-width: 700px;
+        }
+        .dialogo-linea {
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 10px;
+        }
+        .dialogo-linea:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .hablante {
+            font-weight: 700;
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+            min-width: 30px;
+        }
+        .guarani-texto {
+            font-size: 1.05rem;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 2px;
+            flex: 1;
+        }
+        .traduccion {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-left: 40px;
+        }
+
+        .letra-tachada {
+            display: inline-block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+            text-decoration-color: rgba(255, 100, 100, 0.5);
+            filter: blur(0.5px);
+            margin: 0 6px;
+            opacity: 0.5;
+        }
+        .letra-activa {
+            display: inline-block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin: 0 6px;
+        }
+        .game-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            transition: all 0.25s;
+            margin: 8px 10px 8px 0;
+        }
+        .game-btn:hover {
+            background: rgba(255, 255, 255, 0.13);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .game-btn.correct {
+            background: rgba(34, 197, 94, 0.3) !important;
+            border-color: #22c55e !important;
+            box-shadow: 0 0 28px rgba(34, 197, 94, 0.4) !important;
+            animation: pulseCorrect 0.6s ease-in-out;
+        }
+        .game-btn.incorrect {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 28px rgba(239, 68, 68, 0.4) !important;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes pulseCorrect {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-8px);
+            }
+            50% {
+                transform: translateX(8px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+        .game-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: fadeInMsg 0.35s;
+        }
+        .game-feedback.show {
+            display: block;
+        }
+        .game-feedback.success {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #4ade80;
+        }
+        .game-feedback.error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+        .vocal-col {
+            display: inline-block;
+            vertical-align: top;
+            width: 48%;
+            min-width: 250px;
+            margin: 10px 1%;
+        }
+        @media (max-width:600px) {
+            .vocal-col {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        .vocal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(200, 169, 81, 0.08);
+            border: 1px solid rgba(200, 169, 81, 0.25);
+            border-radius: 26px;
+            cursor: pointer;
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.25s;
+            margin: 4px 6px 4px 0;
+        }
+        .vocal-btn:hover {
+            background: rgba(200, 169, 81, 0.18);
+            box-shadow: 0 0 18px rgba(200, 169, 81, 0.18);
+            transform: translateY(-2px) scale(1.05);
+        }
+        .vocal-btn.playing {
+            background: rgba(200, 169, 81, 0.32);
+            box-shadow: 0 0 28px rgba(200, 169, 81, 0.35);
+            animation: pulseGold 1s ease-in-out infinite;
+        }
+
+        /* SUBGALERÍAS */
+        .subgaleria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .subgaleria-grid .gallery-item {
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            background: #1e293b;
+            transition: all 0.25s var(--transition-smooth);
+        }
+        .subgaleria-grid .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .subgaleria-grid .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* ARTE */
+        .mural-destacado {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+            border-left: 3px solid #a855f7;
+            transition: all 0.25s var(--transition-smooth);
+        }
+        .mural-destacado h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+        .mural-destacado p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        .btn-artistico {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 34px;
+            color: #e9b8ff;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+        .btn-artistico:hover {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(236, 72, 153, 0.35));
+            box-shadow: 0 0 36px rgba(168, 85, 247, 0.35);
+            transform: translateY(-4px) scale(1.04);
+            color: #fff;
+        }
+
+        /* BOTÓN CERRAR GALERÍA (JÓVENES Y MEMORIA, ARTE, LABORATORIO) */
+        .close-gallery-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 25px;
+            color: #f87171;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 0.88rem;
+            margin-top: 20px;
+            letter-spacing: 0.2px;
+        }
+        .close-gallery-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 22px rgba(239, 68, 68, 0.28);
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        /* SUB-SECCIONES OCULTAS (COLAPSABLES) */
+        #jovenes-y-memoria,
+        #arte-y-muralismo,
+        #laboratorio {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.7s var(--transition-smooth), opacity 0.5s ease, padding 0.5s ease, margin 0.5s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-top: 0;
+            border-top: none;
+        }
+        #jovenes-y-memoria.revealed,
+        #arte-y-muralismo.revealed,
+        #laboratorio.revealed {
+            max-height: 6000px;
+            opacity: 1;
+            padding-top: 50px;
+            padding-bottom: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* DEV MSG */
+        .dev-msg {
+            display: none;
+            padding: 12px 18px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 12px;
+            color: var(--blue-light);
+            font-size: 0.9rem;
+            margin-top: 12px;
+            animation: fadeInMsg 0.35s;
+        }
+        .dev-msg.show {
+            display: block;
+        }
+        @keyframes fadeInMsg {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeOutMsg {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 1;
+        }
+        .maps-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 22px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 26px;
+            color: var(--blue-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.25s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .maps-link:hover {
+            background: rgba(59, 130, 246, 0.28);
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        @media (max-width:900px) {
+            header {
+                padding: 10px 18px;
+            }
+            .header-title h1 {
+                font-size: 1rem;
+            }
+            .logo-img {
+                width: 38px;
+                height: 38px;
+            }
+            .section {
+                padding: 56px 16px;
+            }
+            .hero-content h2 {
+                font-size: 1.9rem;
+            }
+            .timeline {
+                padding-left: 20px;
+                margin-left: 4px;
+            }
+            .timeline-item::before {
+                left: -27px;
+                width: 11px;
+                height: 11px;
+            }
+            .guarani-section {
+                padding: 28px 14px;
+            }
+            .materias-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 14px;
+            }
+            .recursos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 14px;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .subgaleria-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 8px;
+            }
+            .conversacion-guarani {
+                padding: 14px 16px;
+            }
+            .back-to-top {
+                bottom: 20px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            .orb-1 {
+                width: 300px;
+                height: 300px;
+                top: -100px;
+                left: -60px;
+            }
+            .orb-2 {
+                width: 250px;
+                height: 250px;
+                bottom: -60px;
+                right: -40px;
+            }
+            .orb-3 {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        @media (max-width:480px) {
+            .hero-content h2 {
+                font-size: 1.6rem;
+            }
+            .btn-hero {
+                padding: 13px 26px;
+                font-size: 0.9rem;
+            }
+            .audio-btn {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+            .taller-btn {
+                padding: 14px 24px;
+                font-size: 0.9rem;
+                display: block;
+                margin: 8px 0;
+            }
+            .materias-grid {
+                grid-template-columns: 1fr;
+            }
+            .recursos-grid {
+                grid-template-columns: 1fr;
+            }
+            .materia-card-img {
+                height: 120px;
+            }
+            .news-card-img {
+                height: 140px;
+            }
+            .subgaleria-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .orb-1 {
+                width: 200px;
+                height: 200px;
+                top: -60px;
+                left: -40px;
+                filter: blur(90px);
+            }
+            .orb-2 {
+                width: 180px;
+                height: 180px;
+                bottom: -40px;
+                right: -30px;
+                filter: blur(90px);
+            }
+            .orb-3 {
+                width: 140px;
+                height: 140px;
+                filter: blur(70px);
+            }
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-20 {
+            margin-top: 20px;
+        }
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ORBES DE LUZ DECORATIVOS -->
+    <div class="orb-glow orb-1"></div>
+    <div class="orb-glow orb-2"></div>
+    <div class="orb-glow orb-3"></div>
+
+    <!-- OVERLAY MENÚ -->
+    <div class="menu-overlay" id="menuOverlay" onclick="cerrarMenu()"></div>
+
+    <!-- HEADER -->
+    <header id="mainHeader">
+        <div class="header-left" onclick="scrollToSection('hero')">
+            <img src="imagenes/escudo.jpg" alt="Escudo E.E.S N°32" class="logo-img"
+            onerror="this.style.background='#2563eb'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontWeight='bold'; this.style.fontSize='1.2rem'; this.textContent='32';">
+            <div class="header-title">
+                <h1>E.E.S N°32</h1>
+                <span class="sub-header" id="subHeader">Portal Institucional Digital</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <nav class="nav-desktop" id="navDesktop">
+                <a href="#hero" class="active-link" data-section="hero">Inicio</a>
+            </nav>
+            <div class="menu-toggle" onclick="abrirMenu()" aria-label="Abrir menú" title="Menú">☰</div>
+        </div>
+    </header>
+
+    <!-- MENÚ LATERAL -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-close" onclick="cerrarMenu()">✕</div>
+        <a href="#hero" data-section="hero" onclick="cerrarMenu()">Inicio</a>
+        <a href="#historia" data-section="historia" onclick="cerrarMenu()">Historia de la Escuela</a>
+        <a href="#identidad" data-section="identidad" onclick="cerrarMenu()">Nuestra Identidad</a>
+        <a href="#comunidad" data-section="comunidad" onclick="cerrarMenu()">Comunidad Educativa</a>
+        <a href="#proyectos" data-section="proyectos" onclick="cerrarMenu()">Proyectos Institucionales</a>
+        <a href="#talleres" data-section="talleres" onclick="cerrarMenu()">Talleres Institucionales</a>
+        <a href="#centro-estudiantes" data-section="centro-estudiantes" onclick="cerrarMenu()">Centro de Estudiantes</a>
+        <a href="#completa-nivel" data-section="completa-nivel" onclick="cerrarMenu()">🎓 Completa Nivel</a>
+        <a href="#recursos" data-section="recursos" onclick="cerrarMenu()">Recursos Institucionales</a>
+        <a href="#galeria" data-section="galeria" onclick="cerrarMenu()">Galería Multimedia</a>
+        <a href="#noticias" data-section="noticias" onclick="cerrarMenu()">Noticias y Novedades</a>
+        <a href="#contacto" data-section="contacto" onclick="cerrarMenu()">Contacto</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80');" data-index="0"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80');" data-index="1"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1531844251246-9a1bfaae09fc?w=1400&q=80');" data-index="2"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content" id="heroContent">
+            <div class="badge">🌱 Portal Institucional · E.E.S. Nº 32</div>
+            <h2 id="heroTitle">Bienvenidos al Portal Digital</h2>
+            <p id="heroSubtitle">Una escuela construida desde la identidad, la participación y la comunidad. Creciendo juntos, dejando huella.</p>
+            <button class="btn-hero" onclick="scrollToSection('historia')">Explorar el portal</button>
+        </div>
+        <div class="hero-dots" id="heroDots">
+            <span class="hero-dot active-dot" data-dot="0"></span>
+            <span class="hero-dot" data-dot="1"></span>
+            <span class="hero-dot" data-dot="2"></span>
+        </div>
+        <div class="hero-scroll-indicator" onclick="scrollToSection('historia')" title="Ir a Historia">↓</div>
+    </section>
+
+    <!-- HISTORIA -->
+    <section class="section" id="historia">
+        <div class="section-label">Nuestra identidad</div>
+        <h2>Historia de la Escuela</h2>
+        <p class="subtitle">Somos una institución joven, nacida del esfuerzo colectivo de una comunidad que soñó con su propia secundaria. Cada año escribimos un nuevo capítulo juntos.</p>
+        <div class="card">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2008</div>
+                    <div class="timeline-text">Inicio como EGB compartiendo edificio con la Escuela Primaria N°8. Primer ciclo lectivo con dos divisiones y mucha ilusión.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2011</div>
+                    <div class="timeline-text">Transición a E.E.S. N°32. Primeras promociones de egresados, un hito que marcó el inicio de nuestro legado.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">25 de agosto de 2023</div>
+                    <div class="timeline-text">Inauguración del edificio propio en <strong>Barker entre Ascasubi y Trujui, Moreno</strong>. Un sueño hecho realidad para toda la comunidad.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025 — Presente</div>
+                    <div class="timeline-text">Más de 15 promociones, comunidad vibrante. Seguimos construyendo identidad, interculturalidad y participación. ¡Y esto recién empieza!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IDENTIDAD -->
+    <section class="section" id="identidad">
+        <div class="section-label">Nuestra esencia</div>
+        <h2>Nuestra Identidad</h2>
+        <p class="subtitle">Somos mucho más que un edificio: somos una comunidad que elige cada día construir una escuela pública de calidad, abierta, participativa y con memoria.</p>
+        <div class="projects-grid">
+            <div class="card" style="border-left: 3px solid var(--blue);">
+                <h4 style="color:#fff; margin-bottom:8px;">🌟 Valores Institucionales</h4>
+                <p style="color:var(--text-secondary);">Creemos en el <strong>respeto, la inclusión, el esfuerzo compartido y la solidaridad</strong> como pilares que sostienen cada proyecto, cada clase y cada vínculo que construimos.</p>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--gold);">
+                <h4 style="color:#fff; margin-bottom:8px;">🎯 Objetivos Educativos</h4>
+                <p style="color:var(--text-secondary);">Buscamos una <strong>formación integral</strong> que promueva el pensamiento crítico, la participación ciudadana y el desarrollo de capacidades para la vida, el trabajo y los estudios superiores.</p>
+            </div>
+            <div class="card" style="border-left: 3px solid #a855f7;">
+                <h4 style="color:#fff; margin-bottom:8px;">✨ Características que nos distinguen</h4>
+                <p style="color:var(--text-secondary);">Escuela joven, intercultural, con <strong>talleres de Guaraní y Danza Folklórica</strong>, proyectos solidarios, feria de ciencias y un fuerte vínculo con las familias y el barrio.</p>
+            </div>
+            <div class="card" style="border-left: 3px solid #22c55e;">
+                <h4 style="color:#fff; margin-bottom:8px;">🗣️ Participación Estudiantil</h4>
+                <p style="color:var(--text-secondary);">El <strong>Centro de Estudiantes</strong> es la voz organizada de los jóvenes. Asambleas, propuestas, eventos culturales y deportivos construyen una escuela donde ser parte es transformar.</p>
+            </div>
+            <div class="card" style="border-left: 3px solid #f59e0b;">
+                <h4 style="color:#fff; margin-bottom:8px;">🤝 Relación con la Comunidad</h4>
+                <p style="color:var(--text-secondary);">Trabajamos en red con organizaciones barriales, instituciones locales y familias. La <strong>Asociación Cooperadora</strong> y los proyectos solidarios reflejan nuestro compromiso con el territorio.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMUNIDAD -->
+    <section class="section" id="comunidad">
+        <div class="section-label">Quiénes somos</div>
+        <h2>Comunidad Educativa</h2>
+        <p class="subtitle">Estudiantes, docentes, familias y personal auxiliar. Todos somos parte activa de esta escuela que crece día a día. ¡Cada uno aporta lo suyo!</p>
+        <div class="projects-grid">
+            <div class="card"><h4 style="color:#fff;">👩‍🎓 Estudiantes</h4><p style="color:var(--text-secondary);">Jóvenes de la zona que eligen nuestra escuela para formarse, participar y transformar su realidad.</p></div>
+            <div class="card"><h4 style="color:#fff;">👩‍🏫 Docentes</h4><p style="color:var(--text-secondary);">Un equipo comprometido con la educación pública de calidad, la innovación pedagógica y el acompañamiento personalizado.</p></div>
+            <div class="card"><h4 style="color:#fff;">👨‍👩‍👧‍👦 Familias</h4><p style="color:var(--text-secondary);">Las familias se organizan y participan a través de la <strong>Asociación Cooperadora</strong>, un espacio fundamental para colaborar con la escuela.</p></div>
+            <div class="card" style="border-left: 3px solid var(--gold);"><h4 style="color:#fff;">🧹 Auxiliares</h4><p style="color:var(--text-secondary);">Las personas encargadas de preparar los desayunos y el comedor, abrir el portón, atender el timbre y mantener limpia nuestra escuela. ¡Sin elles no funcionaría nada!</p></div>
+        </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section class="section" id="proyectos">
+        <div class="section-label">Lo que hacemos</div>
+        <h2>Proyectos Institucionales</h2>
+        <p class="subtitle">Ferias, talleres, actividades solidarias, arte, ciencia y participación. La escuela late en cada proyecto. ¡Estos proyectos son el corazón de la 32!</p>
+        <div class="projects-grid">
+            <div class="project-card" onclick="toggleSubseccion('jovenes-y-memoria')">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#5c3a1e,#f59e0b);">
+                    <img src="imagenes/proyectos/jovenes-y-memoria/portada.jpeg" alt="Jóvenes y Memoria" loading="lazy" style="width:100%;height:100%;object-fit:cover;"
+                    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:3rem;>🕊️</span>';">
+                </div>
+                <div class="project-card-body"><h4>🕊️ Jóvenes y Memoria</h4><p>Derechos humanos, identidad e historia reciente desde la voz de los estudiantes. ¡Tocá para ver las salidas!</p></div>
+            </div>
+            <div class="project-card" onclick="toggleSubseccion('arte-y-muralismo')">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#3a1e3a,#a855f7);">
+                    <img src="imagenes/proyectos/arte-y-muralismo/portada.jpeg" alt="Arte y Muralismo" loading="lazy" style="width:100%;height:100%;object-fit:cover;"
+                    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#3a1e3a,#a855f7)'; this.parentElement.innerHTML='<span style=font-size:3rem;>🎨</span>';">
+                </div>
+                <div class="project-card-body"><h4>🎨 Arte y Muralismo</h4><p>Muralismo, música, teatro y expresión que transforma los espacios escolares.</p></div>
+            </div>
+            <div class="project-card" onclick="toggleSubseccion('laboratorio')">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#1e3a5f,#06b6d4);">
+                    <img src="imagenes/proyectos/laboratorio/portada.jpeg" alt="Laboratorio" loading="lazy" style="width:100%;height:100%;object-fit:cover;"
+                    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#06b6d4)'; this.parentElement.innerHTML='<span style=font-size:3rem;>🧪</span>';">
+                </div>
+                <div class="project-card-body"><h4>🧪 Recuperación del Laboratorio</h4><p>Limpieza, organización y puesta en valor del laboratorio escolar.</p></div>
+            </div>
+            <div class="project-card" onclick="scrollToSection('talleres')">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#0e1a0e,#5b8c5a);">
+                    <img src="imagenes/proyectos/guarani/portada.jpeg" alt="Taller de Guaraní" loading="lazy" style="width:100%;height:100%;object-fit:cover;"
+                    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#0e1a0e,#5b8c5a)'; this.parentElement.innerHTML='<span style=font-size:3rem;>🌿</span>';">
+                </div>
+                <div class="project-card-body"><h4>🌿 Taller de Guaraní</h4><p>Lengua y cultura guaraní como puente entre generaciones y raíz de nuestra identidad.</p></div>
+            </div>
+            <div class="project-card" onclick="mostrarDevMensaje('dev-feria', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);">🔬</div>
+                <div class="project-card-body"><h4>Feria de Ciencias</h4><p>Investigación, experimentación y creatividad estudiantil en acción.</p></div>
+            </div>
+            <div class="project-card" onclick="mostrarDevMensaje('dev-solidarios', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#1e3a2e,#22c55e);">🤝</div>
+                <div class="project-card-body"><h4>Proyectos Solidarios</h4><p>Compromiso social y participación comunitaria desde la escuela.</p></div>
+            </div>
+        </div>
+        <div class="dev-msg" id="dev-feria">Esta sección estará disponible próximamente con todos los detalles del proyecto.</div>
+        <div class="dev-msg" id="dev-solidarios">La información detallada de proyectos solidarios estará disponible muy pronto.</div>
+
+        <!-- Jóvenes y Memoria -->
+        <div class="sub-seccion" id="jovenes-y-memoria">
+            <div class="section-label">🕊️ Proyecto Institucional</div>
+            <h2>Jóvenes y Memoria</h2>
+            <p class="subtitle">Un espacio donde los estudiantes investigan, reflexionan y producen conocimiento sobre derechos humanos, memoria histórica e identidad. ¡La memoria la construimos entre todos!</p>
+            <div class="card mb-20">
+                <h3 style="color:#fff; margin-bottom:6px;">📸 Salidas Educativas</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;">Recorridos, visitas y experiencias que conectan el aula con el territorio y la historia.</p>
+                <h4 style="color:var(--blue-light); margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:6px;">📍 Primera Salida</h4>
+                <div class="subgaleria-grid" id="galeriaSalida1">
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-1/foto-1.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-1/foto-1.jpeg" alt="Salida 1 - Foto 1" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-1/foto-2.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-1/foto-2.jpeg" alt="Salida 1 - Foto 2" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-1/foto-3.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-1/foto-3.jpeg" alt="Salida 1 - Foto 3" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-1/foto-4.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-1/foto-4.jpeg" alt="Salida 1 - Foto 4" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                </div>
+                <h4 style="color:var(--blue-light); margin-top:24px; margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:6px;">📍 Segunda Salida</h4>
+                <div class="subgaleria-grid" id="galeriaSalida2">
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-2/foto-1.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-2/foto-1.jpeg" alt="Salida 2 - Foto 1" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-2/foto-2.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-2/foto-2.jpeg" alt="Salida 2 - Foto 2" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/jovenes-y-memoria/salida-2/foto-3.jpeg')"><img src="imagenes/proyectos/jovenes-y-memoria/salida-2/foto-3.jpeg" alt="Salida 2 - Foto 3" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#5c3a1e,#f59e0b)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>📷</span>';"></div>
+                </div>
+                <button class="btn-artistico" onclick="toggleSubseccion('arte-y-muralismo')">🎨 Ver Producción Artística</button>
+                <button class="close-gallery-btn" onclick="cerrarSubseccion('jovenes-y-memoria')">✕ Cerrar Galería</button>
+            </div>
+        </div>
+
+        <!-- Arte y Muralismo -->
+        <div class="sub-seccion" id="arte-y-muralismo">
+            <div class="section-label">🎨 Expresión Colectiva</div>
+            <h2>Arte y Muralismo</h2>
+            <p class="subtitle">Los murales escolares constituyen espacios de expresión artística, participación comunitaria y construcción de identidad institucional. ¡Cada pincelada cuenta!</p>
+            <div class="mural-destacado">
+                <h4>🖌️ Proceso de Pintura</h4>
+                <p>Estudiantes, docentes y familias participaron en jornadas de pintura colectiva.</p>
+                <div class="subgaleria-grid">
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/arte-y-muralismo/mural-1.jpeg')"><img src="imagenes/proyectos/arte-y-muralismo/mural-1.jpeg" alt="Proceso de pintura" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#3a1e3a,#a855f7)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🎨</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/arte-y-muralismo/mural-2.jpeg')"><img src="imagenes/proyectos/arte-y-muralismo/mural-2.jpeg" alt="Mural terminado" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#3a1e3a,#a855f7)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🖼️</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/arte-y-muralismo/mural-3.jpeg')"><img src="imagenes/proyectos/arte-y-muralismo/mural-3.jpeg" alt="Detalle" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#3a1e3a,#a855f7)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🖼️</span>';"></div>
+                </div>
+            </div>
+            <button class="close-gallery-btn" onclick="cerrarSubseccion('arte-y-muralismo')">✕ Cerrar Galería</button>
+        </div>
+
+        <!-- Laboratorio -->
+        <div class="sub-seccion" id="laboratorio">
+            <div class="section-label">🧪 Ciencia en Acción</div>
+            <h2>Recuperación del Laboratorio</h2>
+            <p class="subtitle">Estudiantes de sexto año participaron en tareas de limpieza, organización y recuperación del laboratorio escolar. ¡Manos a la obra por la ciencia!</p>
+            <div class="card">
+                <h4 style="color:#fff; margin-bottom:10px;">📸 Galería de la Recuperación</h4>
+                <div class="subgaleria-grid">
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/laboratorio/limpieza-1.jpeg')"><img src="imagenes/proyectos/laboratorio/limpieza-1.jpeg" alt="Limpieza del laboratorio" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#06b6d4)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🧪</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/laboratorio/limpieza-2.jpeg')"><img src="imagenes/proyectos/laboratorio/limpieza-2.jpeg" alt="Organización" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#06b6d4)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🧪</span>';"></div>
+                    <div class="gallery-item" onclick="abrirLightbox('imagenes/proyectos/laboratorio/limpieza-3.jpeg')"><img src="imagenes/proyectos/laboratorio/limpieza-3.jpeg" alt="Equipo" loading="lazy" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#06b6d4)'; this.parentElement.innerHTML='<span style=font-size:2rem;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;height:100%;>🧪</span>';"></div>
+                </div>
+            </div>
+            <button class="close-gallery-btn" onclick="cerrarSubseccion('laboratorio')">✕ Cerrar Galería</button>
+        </div>
+    </section>
+
+    <!-- TALLERES -->
+    <section class="section" id="talleres">
+        <div class="section-label">Aprendizaje vivo</div>
+        <h2>Talleres Institucionales</h2>
+        <p class="subtitle">Dos espacios fundamentales para nuestra identidad. Elegí uno para explorar su contenido. ¡Animate a descubrir!</p>
+        <div style="text-align:center; margin-bottom:30px;">
+            <button class="taller-btn active-taller" id="btnTallerDanza" onclick="mostrarTaller('danza')">💃 Taller de Danza Folklórica Guaraní</button>
+            <button class="taller-btn" id="btnTallerGuarani" onclick="mostrarTaller('guarani')">🌿 Taller de Lengua y Cultura Guaraní</button>
+        </div>
+        <div class="guarani-section" id="tallerDanza" style="display:block;">
+            <div class="guarani-pattern"></div>
+            <div class="guarani-content">
+                <h3>💃 Danza Folklórica Guaraní</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;">Un espacio para conectar con el movimiento, la música y la tradición guaraní a través de la danza. ¡Vení a mover el cuerpo!</p>
+                <div id="clasesDanza">
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 1</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 2</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 3</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 4</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 5</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 6</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 7</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 8</button>
+                    <button class="clase-btn" style="border:1px dashed rgba(200,169,81,0.4); color:var(--gold-light);" onclick="mostrarMensajeClase(this, 'danza')">✨ Próximamente nuevas clases</button>
+                </div>
+                <div class="dev-msg" id="msgDanza" style="margin-top:14px;"></div>
+            </div>
+        </div>
+        <div class="guarani-section" id="tallerGuarani" style="display:none;">
+            <div class="guarani-pattern"></div>
+            <div class="guarani-content">
+                <h3>🌿 Lengua y Cultura Guaraní</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;">Un espacio para reconocer las voces, palabras y memorias que viven en nuestras familias y en nuestra comunidad. ¡Tu lengua, tu identidad!</p>
+                <div id="clasesGuarani">
+                    <button class="clase-btn" onclick="mostrarClaseGuarani(1, this)">Clase 1</button>
+                    <button class="clase-btn" onclick="mostrarClaseGuarani(2, this)">Clase 2</button>
+                    <button class="clase-btn" onclick="mostrarClaseGuarani(3, this)">Clase 3</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 4</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 5</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 6</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 7</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 8</button>
+                    <button class="clase-btn" style="border:1px dashed rgba(200,169,81,0.4); color:var(--gold-light);" onclick="mostrarMensajeClase(this, 'guarani')">✨ Próximamente nuevas clases</button>
+                </div>
+                <div class="dev-msg" id="msgGuarani" style="margin-top:14px;"></div>
+
+                <!-- Clase 1 -->
+                <div class="clase-content" id="clase1Content">
+                    <h3 style="color:var(--gold-light); margin-top:20px;">Achegety — El abecedario guaraní</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">El guaraní tiene su propio alfabeto, llamado <strong>Achegety</strong>. Algunas letras del español no existen en guaraní.</p>
+                    <p style="color:var(--text-muted); margin-bottom:10px;"><strong>Letras que NO existen en guaraní:</strong></p>
+                    <div style="text-align:center; margin:16px 0;">
+                        <span class="letra-tachada">C</span><span class="letra-tachada">F</span><span class="letra-tachada">Q</span><span class="letra-tachada">W</span><span class="letra-tachada">X</span><span class="letra-tachada">Z</span>
+                    </div>
+                    <p style="color:var(--text-muted); margin-bottom:20px;">El signo <strong style="color:var(--gold-light);">ʼ</strong> se llama <strong>puso</strong> y representa una pausa glotal.</p>
+                    <h4 style="color:var(--gold-light); margin-bottom:12px;">🔊 Escuchá la pronunciación</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;" id="audioBtnsClase1">
+                        <button class="audio-btn" data-audio="audios/chipa.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span> CH (chipa)</button>
+                        <button class="audio-btn" data-audio="audios/hovy.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span> H (hovy)</button>
+                        <button class="audio-btn" data-audio="audios/jagua.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span> J (jagua)</button>
+                        <button class="audio-btn" data-audio="audios/g-suave.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span> G (suave)</button>
+                        <button class="audio-btn" data-audio="audios/g-nasal.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span> G̃ (nasal)</button>
+                    </div>
+                    <div class="audio-warning" id="audioWarning1">Esperá a que termine el audio actual.</div>
+                    <h4 style="color:var(--gold-light); margin-top:24px; margin-bottom:10px;">🎮 Juego: ¿Cuál pertenece al Achegety?</h4>
+                    <p style="color:var(--text-secondary); margin-bottom:10px;">Tocá la palabra que está escrita correctamente en guaraní:</p>
+                    <button class="game-btn" id="gameBtn1a" onclick="verificarJuego1('chipa', this)">🍞 chipa</button>
+                    <button class="game-btn" id="gameBtn1b" onclick="verificarJuego1('yagua', this)">🐕 yagua</button>
+                    <div class="game-feedback" id="gameFeedback1"></div>
+                </div>
+
+                <!-- Clase 2 -->
+                <div class="clase-content" id="clase2Content">
+                    <h3 style="color:var(--gold-light); margin-top:20px;">Las 12 vocales del guaraní</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">El guaraní tiene <strong>12 vocales</strong>: 6 orales y 6 nasales.</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+                        <div class="vocal-col">
+                            <h4 style="color:#fff; margin-bottom:10px;">🗣️ Orales</h4>
+                            <button class="vocal-btn" data-audio="audios/vocal-a.ogg" onclick="reproducirAudio(this)">A</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-e.ogg" onclick="reproducirAudio(this)">E</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-i.ogg" onclick="reproducirAudio(this)">I</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-o.ogg" onclick="reproducirAudio(this)">O</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-u.ogg" onclick="reproducirAudio(this)">U</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-y.ogg" onclick="reproducirAudio(this)">Y</button>
+                        </div>
+                        <div class="vocal-col">
+                            <h4 style="color:var(--gold-light); margin-bottom:10px;">👃 Nasales</h4>
+                            <button class="vocal-btn" data-audio="audios/vocal-a-nasal.ogg" onclick="reproducirAudio(this)">Ã</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-e-nasal.ogg" onclick="reproducirAudio(this)">Ẽ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-i-nasal.ogg" onclick="reproducirAudio(this)">Ĩ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-o-nasal.ogg" onclick="reproducirAudio(this)">Õ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-u-nasal.ogg" onclick="reproducirAudio(this)">Ũ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-y-nasal.ogg" onclick="reproducirAudio(this)">Ỹ</button>
+                        </div>
+                    </div>
+                    <div class="audio-warning" id="audioWarning2" style="margin-top:8px;">Esperá a que termine el audio actual.</div>
+                    <h4 style="color:var(--gold-light); margin-top:24px; margin-bottom:10px;">🎮 Juego: Identificación auditiva</h4>
+                    <p style="color:var(--text-secondary); margin-bottom:10px;">Escuchá el sonido y decí si es una vocal <strong>Oral</strong> o <strong>Nasal</strong>:</p>
+                    <button class="game-btn" id="gameBtnOral" onclick="verificarJuego2('oral')">🗣️ Oral</button>
+                    <button class="game-btn" id="gameBtnNasal" onclick="verificarJuego2('nasal')">👃 Nasal</button>
+                    <button class="audio-btn" id="btnSonidoJuego2" data-audio="audios/vocal-a-nasal.ogg" onclick="reproducirAudioJuego(this)" style="margin-top:8px;"><span class="icon-play">▶</span> Reproducir sonido</button>
+                    <div class="game-feedback" id="gameFeedback2"></div>
+                </div>
+
+                <!-- Clase 3 - CONVERSACIÓN -->
+                <div class="clase-content" id="clase3Content">
+                    <h3 style="color:var(--gold-light); margin-top:20px;">Ñomongeta — Conversación en Guaraní</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">Practicá una conversación cotidiana. Hacé clic en el ícono 🔊 para escuchar cada frase y repetirla.</p>
+                    <div class="conversacion-guarani" id="dialogoGuarani">
+                        <div class="dialogo-linea">
+                            <span class="hablante">A:</span>
+                            <span class="guarani-texto">Mba'éichapa nde reiko?</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-mba'eichapa.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(¿Cómo estás?)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">B:</span>
+                            <span class="guarani-texto">Che aime porã, ha nde?</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-che-aime.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Estoy bien, ¿y vos?)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">A:</span>
+                            <span class="guarani-texto">Che avei aime porã.</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-che-avei.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Yo también estoy bien.)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">B:</span>
+                            <span class="guarani-texto">Mba'éichapa nde réra?</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-mba'eichapa-rera.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(¿Cómo te llamás?)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">A:</span>
+                            <span class="guarani-texto">Che réra Juan. Ha nde?</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-che-rera.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Me llamo Juan. ¿Y vos?)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">B:</span>
+                            <span class="guarani-texto">Che réra María.</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-che-rera-maria.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Me llamo María.)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">A:</span>
+                            <span class="guarani-texto">Moõguápa nde?</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-mooguapa.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(¿De dónde sos?)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">B:</span>
+                            <span class="guarani-texto">Che Villanuevágua.</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-villanuevagua.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Soy de Villanueva.)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">A:</span>
+                            <span class="guarani-texto">Aguyje.</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-aguyje.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Gracias.)</span>
+                        </div>
+                        <div class="dialogo-linea">
+                            <span class="hablante">B:</span>
+                            <span class="guarani-texto">Jajoecha peve.</span>
+                            <button class="audio-btn" style="padding:6px 12px; font-size:0.8rem;" data-audio="audios/frase-jajoecha.ogg" onclick="reproducirAudio(this)"><span class="icon-play">▶</span></button>
+                            <span class="traduccion">(Hasta luego.)</span>
+                        </div>
+                    </div>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:14px;">💡 Practicá esta conversación con un compañero. Los audios te ayudarán a mejorar la entonación y nasalidad.</p>
+                    <button class="game-btn" onclick="alternarTraducciones()" style="margin-top:10px;">🙈 Ocultar traducciones</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CENTRO DE ESTUDIANTES -->
+    <section class="section" id="centro-estudiantes">
+        <div class="section-label">Participación juvenil</div>
+        <h2>Centro de Estudiantes</h2>
+        <p class="subtitle">La voz de la 32 🗣️. El centro lo hacemos entre todos: organizado, activo y comprometido con la vida escolar.</p>
+        <div style="margin-bottom:20px;">
+            <span class="badge-activo">Activo</span>
+        </div>
+        <div class="card">
+            <h4 style="color:#fff; margin-bottom:10px;">🗳️ ¿Qué hacemos?</h4>
+            <p style="color:var(--text-secondary); margin-bottom:16px;">El Centro de Estudiantes organiza actividades culturales, recreativas y solidarias. Representa los intereses del alumnado y fomenta la participación democrática. ¡Sumate, tu idea puede cambiar todo!</p>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Próximamente: cronograma de asambleas, propuestas 2025 y galería de eventos realizados.</p>
+        </div>
+    </section>
+
+    <!-- COMPLETA NIVEL -->
+    <section class="section" id="completa-nivel">
+        <div class="section-label">🎓 Completa Nivel</div>
+        <h2>Completa Nivel</h2>
+        <p class="intro-text">💪 <strong>¡Vos podés!</strong> Prepará tus exámenes acá. Materiales de estudio pensados para que completes las materias pendientes del nivel secundario. ¡No bajes los brazos, cada materia es un paso más!</p>
+        <p style="color:var(--text-secondary); max-width:800px; margin-bottom:36px; font-size:0.95rem;">Seleccioná la materia que necesitás y accedé al material en formato PDF. ¡A estudiar con ganas!</p>
+        <div class="materias-grid" id="materiasGrid"></div>
+    </section>
+
+    <!-- RECURSOS -->
+    <section class="section" id="recursos">
+        <div class="section-label">📂 Documentos</div>
+        <h2>Recursos Institucionales</h2>
+        <p class="subtitle">Documentos oficiales, formularios y materiales de consulta para toda la comunidad educativa. ¡Todo lo que necesitás, en un solo lugar!</p>
+        <div class="recursos-grid" id="recursosGrid"></div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="section" id="galeria">
+        <div class="section-label">📷 Momentos</div>
+        <h2>Galería Institucional</h2>
+        <p class="subtitle">Imágenes que capturan la vida cotidiana de nuestra escuela. Seleccioná una categoría para explorar.</p>
+        <div class="gallery-filters" id="galleryFilters">
+            <button class="gallery-filter-btn active-filter" data-filter="todas">📷 Todas</button>
+            <button class="gallery-filter-btn" data-filter="actos-escolares">🎓 Actos escolares</button>
+            <button class="gallery-filter-btn" data-filter="proyectos-institucionales">📑 Proyectos institucionales</button>
+            <button class="gallery-filter-btn" data-filter="jovenes-y-memoria-gal">🕊️ Jóvenes y Memoria</button>
+            <button class="gallery-filter-btn" data-filter="arte-y-muralismo-gal">🎨 Arte y Muralismo</button>
+            <button class="gallery-filter-btn" data-filter="laboratorio-gal">🧪 Laboratorio</button>
+            <button class="gallery-filter-btn" data-filter="taller-guarani-gal">🌿 Taller de Guaraní</button>
+            <button class="gallery-filter-btn" data-filter="vida-escolar">🏫 Vida Escolar</button>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <!-- NOTICIAS -->
+    <section class="section" id="noticias">
+        <div class="section-label">Novedades</div>
+        <h2>Noticias y Novedades</h2>
+        <p class="subtitle">Enterate de todo lo que pasa en la E.E.S N°32: eventos, comunicados y fechas importantes. ¡No te pierdas nada!</p>
+        <div class="news-grid" id="newsGrid"></div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section" id="contacto">
+        <div class="section-label">Contacto</div>
+        <h2>Contacto</h2>
+        <p class="subtitle">¿Querés comunicarte con la escuela? Escribinos o acercate. ¡Las puertas están abiertas!</p>
+        <div class="card" style="max-width:580px;">
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📧 <strong>Email:</strong> Secundaria23moreno@abc.gob.ar</p>
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📞 <strong>Teléfono:</strong> 1151483325</p>
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📍 <strong>Dirección:</strong> Barker entre Ascasubi y Trujui, Moreno, Buenos Aires</p>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:12px;">Horario de atención: lunes a viernes de 8:00 a 16:00 hs.</p>
+            <a href="https://www.google.com/maps?q=-34.585924,-58.7681032" target="_blank" rel="noopener" class="maps-link">📍 Abrir ubicación en Google Maps</a>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+        <span class="lightbox-close" onclick="cerrarLightbox()">✕</span>
+        <img src="" alt="Imagen ampliada" id="lightboxImg">
+    </div>
+
+    <!-- BOTÓN VOLVER ARRIBA -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="Volver arriba">↑</button>
+
+    <footer>
+        <p>E.E.S N°32 — Escuela de Educación Secundaria N°32</p>
+        <p style="margin-top:4px;">Barker entre Ascasubi y Trujui · Moreno · Buenos Aires · Argentina</p>
+        <p style="margin-top:4px; opacity:0.6;">© 2026 — Portal Institucional Digital · Construyendo identidad, dejando huella.</p>
+    </footer>
+
+    <script>
+        // ============ TOGGLE SUB-SECCIONES (Genérico) ============
+        function toggleSubseccion(id) {
+            const sub = document.getElementById(id);
+            if (!sub) return;
+            if (sub.classList.contains('revealed')) {
+                sub.classList.remove('revealed');
+            } else {
+                sub.classList.add('revealed');
+                setTimeout(() => {
+                    const header = document.getElementById('mainHeader');
+                    const headerHeight = header ? header.offsetHeight : 70;
+                    const top = sub.getBoundingClientRect().top + window.scrollY - headerHeight - 24;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }, 120);
+            }
+        }
+        function cerrarSubseccion(id) {
+            const sub = document.getElementById(id);
+            if (sub) sub.classList.remove('revealed');
+        }
+
+        // ============ MATERIAS ============
+        const materiasData = [
+            { id: 'ed-fisica', nombre: 'Educación Física', icono: '🏃', descripcion: 'Actividad física, salud, deporte. ¡A moverse!', imagen: 'imagenes/educacion-fisica.jpg',
+                pdf: 'documentos/completa-nivel/educacion-fisica.pdf' },
+            { id: 'quimica-carbono', nombre: 'Química del Carbono', icono: '🧪', descripcion: 'Compuestos orgánicos y transformaciones.',
+                imagen: 'imagenes/quimica.jpg', pdf: 'documentos/completa-nivel/quimica-carbono.pdf' },
+            { id: 'fisica-clasica', nombre: 'Física Clásica y Moderna', icono: '⚛️', descripcion: 'Movimiento, energía, fuerzas.',
+                imagen: 'imagenes/fisica.jpg', pdf: 'documentos/completa-nivel/fisica-clasica-y-moderna.pdf' },
+            { id: 'matematica', nombre: 'Matemática', icono: '📐', descripcion: 'Álgebra, funciones, problemas. ¡Vos podés!', imagen: 'imagenes/matematica.jpg',
+                pdf: 'documentos/completa-nivel/matematica.pdf' },
+            { id: 'ambiente', nombre: 'Ambiente, Desarrollo y Sociedad', icono: '🌍', descripcion: 'Relación ambiente-sociedad.',
+                imagen: 'imagenes/ambiente.jpg', pdf: 'documentos/completa-nivel/ambiente-desarrollo-sociedad.pdf' },
+            { id: 'trabajo', nombre: 'Trabajo y Ciudadanía', icono: '💼', descripcion: 'Derechos laborales y ciudadanía.', imagen: 'imagenes/trabajo.jpg',
+                pdf: 'documentos/completa-nivel/trabajo-y-ciudadania.pdf' },
+            { id: 'filosofia', nombre: 'Filosofía e Historia de la Ciencia', icono: '📖', descripcion: 'Conocimiento científico.',
+                imagen: 'imagenes/filosofia.jpg', pdf: 'documentos/completa-nivel/filosofia-historia-ciencia.pdf' },
+            { id: 'biologia', nombre: 'Biología, Genética y Sociedad', icono: '🧬', descripcion: 'Herencia, evolución, debates.',
+                imagen: 'imagenes/biologia.jpg', pdf: 'documentos/completa-nivel/biologia-genetica-y-sociedad.pdf' },
+            { id: 'literatura', nombre: 'Literatura', icono: '📚', descripcion: 'Lectura y análisis de obras.', imagen: 'imagenes/literatura.jpg',
+                pdf: 'documentos/completa-nivel/literatura.pdf' },
+            { id: 'ingles', nombre: 'Inglés', icono: '📖', descripcion: 'Comprensión y comunicación. ¡Let\'s go!', imagen: 'imagenes/ingles.jpg',
+                pdf: 'documentos/completa-nivel/ingles.pdf' }
+        ];
+
+        function renderizarMaterias() {
+            const grid = document.getElementById('materiasGrid');
+            grid.innerHTML = materiasData.map(m => `
+                <div class="materia-card">
+                    <div class="materia-card-img">
+                        <img src="${m.imagen}" alt="${m.nombre}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=font-size:3.5rem;>${m.icono}</span>'; this.parentElement.style.background='linear-gradient(135deg, #1a2740, #1e3050)';">
+                    </div>
+                    <div class="materia-card-body">
+                        <h3>${m.icono} ${m.nombre}</h3>
+                        <p>${m.descripcion}</p>
+                        <a href="${m.pdf}" target="_blank" rel="noopener" class="btn-materia" onclick="registrarDescarga('${m.nombre}')">📄 Abrir Material</a>
+                    </div>
+                </div>`).join('');
+        }
+
+        // ============ RECURSOS ============
+        const recursosData = [
+            { id: 'acuerdo', nombre: 'Acuerdo Institucional de Convivencia', icono: '📋', disponible: false },
+            { id: 'calendario', nombre: 'Calendario Escolar', icono: '📆', disponible: false },
+            { id: 'formularios', nombre: 'Formularios y Autorizaciones', icono: '📝', disponible: false },
+            { id: 'ingresantes', nombre: 'Información para Ingresantes', icono: '🏫', disponible: false },
+            { id: 'disenios', nombre: 'Diseños Curriculares', icono: '📚', disponible: false },
+            { id: 'cooperadora', nombre: 'Asociación Cooperadora', icono: '🤝', disponible: false },
+            { id: 'proyectos-rec', nombre: 'Proyectos Institucionales', icono: '📑', disponible: false },
+            { id: 'comunicados', nombre: 'Comunicados Oficiales', icono: '📢', disponible: false }
+        ];
+
+        function renderizarRecursos() {
+            document.getElementById('recursosGrid').innerHTML = recursosData.map(r => `
+                <div class="recurso-card">
+                    <div class="recurso-icon">${r.icono}</div>
+                    <h4>${r.nombre}</h4>
+                    <span class="recurso-status">Disponible próximamente.</span>
+                </div>`).join('');
+        }
+
+        // ============ GALERÍA ============
+        const galeriaData = [
+            { src: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80', categoria: 'actos-escolares',
+                titulo: 'Acto escolar' },
+            { src: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80', categoria: 'actos-escolares',
+                titulo: 'Ceremonia' },
+            { src: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80', categoria: 'actos-escolares',
+                titulo: 'Graduación' },
+            { src: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80',
+                categoria: 'proyectos-institucionales', titulo: 'Trabajo en equipo' },
+            { src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80',
+                categoria: 'proyectos-institucionales', titulo: 'Proyecto comunitario' },
+            { src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80', categoria: 'vida-escolar',
+                titulo: 'Tecnología' },
+            { src: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80', categoria: 'vida-escolar',
+                titulo: 'Comunidad educativa' },
+            { src: 'https://images.unsplash.com/photo-1492538368677-f6e0afe31dcc?w=600&q=80', categoria: 'vida-escolar',
+            titulo: 'Recreo' },
+            { src: 'https://images.unsplash.com/photo-1531844251246-9a1bfaae09fc?w=600&q=80',
+                categoria: 'jovenes-y-memoria-gal', titulo: 'Participación estudiantil' },
+            { src: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80', categoria: 'taller-guarani-gal',
+                titulo: 'Taller de Guaraní' },
+            { src: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=80',
+                categoria: 'arte-y-muralismo-gal', titulo: 'Mural en proceso' },
+        ];
+
+        function renderizarGaleria(filtro = 'todas') {
+            const grid = document.getElementById('galleryGrid');
+            const items = filtro === 'todas' ? galeriaData : galeriaData.filter(i => i.categoria === filtro);
+            grid.innerHTML = items.length ? items.map(item => `
+                <div class="gallery-item" data-categoria="${item.categoria}" onclick="abrirLightbox('${item.src}')">
+                    <img src="${item.src}" alt="${item.titulo}" loading="lazy">
+                    <span class="gallery-category-tag">${item.titulo}</span>
+                </div>`).join('') :
+                '<div class="gallery-empty">📷 Contenido en construcción.<br><small>Pronto cargaremos imágenes en esta categoría.</small></div>';
+        }
+
+        function initGalleryFilters() {
+            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove(
+                        'active-filter'));
+                    btn.classList.add('active-filter');
+                    renderizarGaleria(btn.dataset.filter);
+                });
+            });
+        }
+
+        // ============ NOTICIAS ============
+        const noticiasData = [
+            { fecha: '24 de mayo de 2026', titulo: 'Acto por el 25 de Mayo',
+                resumen: 'Invitamos a toda la comunidad al acto conmemorativo del viernes 23, turno mañana. Habrá presentaciones artísticas y feria de comidas típicas.',
+                imagen: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80' },
+            { fecha: '10 de mayo de 2026', titulo: 'Inscripciones abiertas — Taller de Guaraní',
+                resumen: 'Ya están abiertas las inscripciones para el taller de Lengua y Cultura Guaraní. Acercate a la biblioteca para anotarte.',
+                imagen: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80' },
+            { fecha: '28 de abril de 2026', titulo: 'Elecciones del Centro de Estudiantes',
+                resumen: 'Se realizarán las elecciones para renovar la comisión directiva. ¡Participá y hacé oír tu voz!',
+                imagen: 'https://images.unsplash.com/photo-1531844251246-9a1bfaae09fc?w=600&q=80' },
+            { fecha: '15 de abril de 2026', titulo: 'Jornada de Convivencia Escolar',
+                resumen: 'Estudiantes de todos los años participaron de una jornada de reflexión sobre convivencia, respeto y derechos.',
+                imagen: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80' }
+        ];
+
+        function renderizarNoticias() {
+            document.getElementById('newsGrid').innerHTML = noticiasData.map(n => `
+                <div class="news-card">
+                    <div class="news-card-img" style="background-image:url('${n.imagen}');background-size:cover;background-position:center;"></div>
+                    <div class="news-card-body">
+                        <div class="news-date">📅 ${n.fecha}</div>
+                        <h4>${n.titulo}</h4>
+                        <p>${n.resumen}</p>
+                        <button class="btn-leer-mas" onclick="mostrarToast('📰 Próximamente: nota completa de «${n.titulo}»', this)">Leer más</button>
+                    </div>
+                </div>`).join('');
+        }
+
+        // ============ SLIDER ============
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.hero-dot');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        const frases = [
+            { title: 'Bienvenidos al Portal Digital',
+                subtitle: 'Una escuela construida desde la identidad, la participación y la comunidad.' },
+            { title: 'Educación e Interculturalidad',
+                subtitle: 'Valoramos nuestras raíces y abrazamos la diversidad cultural que nos enriquece.' },
+            { title: 'Lengua y Cultura Guaraní',
+                subtitle: 'Un puente entre generaciones. Rescatamos la memoria y la identidad de nuestros pueblos originarios.' }
+        ];
+
+        function goToSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active-dot'));
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active-dot');
+            heroTitle.textContent = frases[currentSlide].title;
+            heroSubtitle.textContent = frases[currentSlide].subtitle;
+            const content = document.getElementById('heroContent');
+            content.style.animation = 'none';
+            content.offsetHeight;
+            content.style.animation = 'fadeInUpHero 1.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+
+        function nextSlide() { goToSlide((currentSlide + 1) % totalSlides); }
+
+        function startSlider() { sliderInterval = setInterval(nextSlide, 4000); }
+
+        function resetSlider() { clearInterval(sliderInterval);
+            startSlider(); }
+        dots.forEach(dot => dot.addEventListener('click', () => {
+            goToSlide(parseInt(dot.dataset.dot));
+            resetSlider();
+        }));
+        startSlider();
+
+        // ============ AUDIO ============
+        let audioActual = null,
+            botonActual = null;
+
+        function reproducirAudio(boton) {
+            const src = boton.dataset.audio;
+            if (audioActual && botonActual && botonActual !== boton && !audioActual.paused) {
+                mostrarWarningAudio(boton);
+                return;
+            }
+            if (botonActual === boton && audioActual && !audioActual.paused) {
+                audioActual.pause();
+                boton.classList.remove('playing');
+                audioActual = null;
+                botonActual = null;
+                return;
+            }
+            if (audioActual) { audioActual.pause();
+                audioActual = null; }
+            if (botonActual) botonActual.classList.remove('playing');
+            audioActual = new Audio(src);
+            botonActual = boton;
+            boton.classList.add('playing');
+            audioActual.play().catch(() => { boton.classList.remove('playing');
+                audioActual = null;
+                botonActual = null; });
+            audioActual.onended = () => { boton.classList.remove('playing');
+                audioActual = null;
+                botonActual = null; };
+        }
+
+        function mostrarWarningAudio(boton) {
+            document.querySelectorAll('.audio-warning').forEach(w => w.classList.add('show'));
+            setTimeout(() => document.querySelectorAll('.audio-warning').forEach(w => w.classList.remove('show')), 2200);
+        }
+
+        function reproducirAudioJuego(boton) {
+            const orales = ['audios/vocal-a.ogg', 'audios/vocal-e.ogg', 'audios/vocal-i.ogg', 'audios/vocal-o.ogg',
+                'audios/vocal-u.ogg', 'audios/vocal-y.ogg'
+            ];
+            const nasales = ['audios/vocal-a-nasal.ogg', 'audios/vocal-e-nasal.ogg', 'audios/vocal-i-nasal.ogg',
+                'audios/vocal-o-nasal.ogg', 'audios/vocal-u-nasal.ogg', 'audios/vocal-y-nasal.ogg'
+            ];
+            const todos = [...orales, ...nasales];
+            const elegido = todos[Math.floor(Math.random() * todos.length)];
+            boton.dataset.audio = elegido;
+            boton.dataset.tipo = orales.includes(elegido) ? 'oral' : 'nasal';
+            document.getElementById('gameFeedback2').classList.remove('show', 'success', 'error');
+            reproducirAudio(boton);
+        }
+
+        // ============ MENÚ ============
+        function abrirMenu() { document.getElementById('sideMenu').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active'); }
+
+        function cerrarMenu() { document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active'); }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarMenu(); });
+
+        function scrollToSection(id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: 'smooth',
+                block: 'start' });
+            cerrarMenu(); }
+
+        function scrollToSubSeccion(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const headerHeight = document.getElementById('mainHeader').offsetHeight;
+                window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - headerHeight - 20,
+                    behavior: 'smooth' });
+                cerrarMenu();
+            }
+        }
+
+        // ============ HEADER DINÁMICO ============
+        const subHeader = document.getElementById('subHeader');
+        const seccionesNombres = {
+            'hero': 'Inicio',
+            'historia': 'Historia de la Escuela',
+            'identidad': 'Nuestra Identidad',
+            'comunidad': 'Comunidad Educativa',
+            'proyectos': 'Proyectos Institucionales',
+            'talleres': 'Talleres',
+            'centro-estudiantes': 'Centro de Estudiantes',
+            'completa-nivel': 'Completa Nivel',
+            'recursos': 'Recursos Institucionales',
+            'galeria': 'Galería Multimedia',
+            'noticias': 'Noticias',
+            'contacto': 'Contacto'
+        };
+
+        function actualizarLinkActivo() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#navDesktop a, #sideMenu a');
+            let currentId = 'hero';
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) currentId = sec.id;
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.dataset.section === currentId) link.classList.add('active-link');
+            });
+            subHeader.classList.remove('highlight');
+            const nombreSeccion = seccionesNombres[currentId] || 'Portal Institucional Digital';
+            subHeader.textContent = nombreSeccion;
+            if (seccionesNombres[currentId]) {
+                subHeader.classList.add('highlight');
+            }
+        }
+        window.addEventListener('scroll', () => {
+            document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 60);
+            actualizarLinkActivo();
+        });
+
+        // ============ LIGHTBOX ============
+        function abrirLightbox(src) { document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden'; }
+
+        function cerrarLightbox() { document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = ''; }
+
+        // ============ TALLERES ============
+        function mostrarTaller(taller) {
+            document.getElementById('tallerDanza').style.display = taller === 'danza' ? 'block' : 'none';
+            document.getElementById('tallerGuarani').style.display = taller === 'guarani' ? 'block' : 'none';
+            document.getElementById('btnTallerDanza').classList.toggle('active-taller', taller === 'danza');
+            document.getElementById('btnTallerGuarani').classList.toggle('active-taller', taller === 'guarani');
+            document.querySelectorAll('.clase-content').forEach(c => c.classList.remove('visible'));
+            document.querySelectorAll('.dev-msg').forEach(m => m.classList.remove('show'));
+        }
+
+        function mostrarMensajeClase(boton, tipo) {
+            document.querySelectorAll('.clase-btn').forEach(b => b.classList.remove('active-clase'));
+            boton.classList.add('active-clase');
+            const msg = document.getElementById(tipo === 'danza' ? 'msgDanza' : 'msgGuarani');
+            if (msg) { msg.textContent = '✨ Esta clase aún no está disponible. ¡Pronto compartiremos nuevos contenidos!';
+                msg.classList.add('show'); }
+            setTimeout(() => { if (msg) msg.classList.remove('show'); }, 3500);
+        }
+
+        function mostrarClaseGuarani(num, boton) {
+            document.querySelectorAll('.clase-btn').forEach(b => b.classList.remove('active-clase'));
+            boton.classList.add('active-clase');
+            document.querySelectorAll('.clase-content').forEach(c => c.classList.remove('visible'));
+            document.querySelectorAll('.dev-msg').forEach(m => m.classList.remove('show'));
+            const content = document.getElementById('clase' + num + 'Content');
+            if (content) content.classList.add('visible');
+        }
+
+        // ============ JUEGOS ============
+        function verificarJuego1(respuesta, boton) {
+            const fb = document.getElementById('gameFeedback1');
+            const btnA = document.getElementById('gameBtn1a'),
+                btnB = document.getElementById('gameBtn1b');
+            btnA.classList.remove('correct', 'incorrect');
+            btnB.classList.remove('correct', 'incorrect');
+            fb.classList.remove('show', 'success', 'error');
+            if (respuesta === 'chipa') {
+                boton.classList.add('correct');
+                fb.textContent = '✅ ¡Correcto! "Chipa" se escribe con CH, que es parte del Achegety.';
+                fb.classList.add('show', 'success');
+            } else {
+                boton.classList.add('incorrect');
+                btnA.classList.add('correct');
+                fb.textContent = '❌ "Yagua" no es correcto. En guaraní se escribe "Jagua" con J.';
+                fb.classList.add('show', 'error');
+            }
+            setTimeout(() => { btnA.classList.remove('correct', 'incorrect');
+                btnB.classList.remove('correct', 'incorrect');
+                fb.classList.remove('show', 'success', 'error'); }, 4000);
+        }
+
+        function verificarJuego2(respuesta) {
+            const fb = document.getElementById('gameFeedback2');
+            const btnSonido = document.getElementById('btnSonidoJuego2');
+            const tipoCorrecto = btnSonido.dataset.tipo;
+            fb.classList.remove('show', 'success', 'error');
+            if (!tipoCorrecto) {
+                fb.textContent = '⚠️ Primero tocá "Reproducir sonido".';
+                fb.classList.add('show', 'error');
+                setTimeout(() => fb.classList.remove('show', 'error'), 3000);
+                return;
+            }
+            if (respuesta === tipoCorrecto) {
+                fb.textContent = '✅ ¡Correcto! Identificaste bien el tipo de vocal.';
+                fb.classList.add('show', 'success');
+            } else {
+                fb.textContent = '❌ No es correcto. Volvé a escuchar el sonido.';
+                fb.classList.add('show', 'error');
+            }
+            setTimeout(() => fb.classList.remove('show', 'success', 'error'), 4000);
+        }
+
+        // ============ TRADUCCIONES TOGGLE ============
+        function alternarTraducciones() {
+            const trad = document.querySelectorAll('#dialogoGuarani .traduccion');
+            const btn = document.querySelector('#clase3Content .game-btn');
+            if (trad[0].style.display === 'none') {
+                trad.forEach(t => t.style.display = '');
+                btn.textContent = '🙈 Ocultar traducciones';
+            } else {
+                trad.forEach(t => t.style.display = 'none');
+                btn.textContent = '🐵 Mostrar traducciones';
+            }
+        }
+
+        // ============ DEV MSG / TOAST ============
+        function mostrarDevMensaje(id) { const msg = document.getElementById(id); if (msg) { msg.classList.add('show');
+                setTimeout(() => msg.classList.remove('show'), 3500); } }
+
+        function mostrarToast(mensaje) {
+            const toast = document.createElement('div');
+            toast.textContent = mensaje;
+            toast.style.cssText =
+                'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(25,25,30,0.92);color:#fff;padding:10px 22px;border-radius:22px;font-size:0.84rem;z-index:3000;animation:fadeInMsg 0.3s,fadeOutMsg 0.3s 2s forwards;pointer-events:none;';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2400);
+        }
+
+        function registrarDescarga(nombre) {
+            console.log('Descarga iniciada: ' + nombre);
+        }
+
+        // ============ INICIALIZACIÓN ============
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarMaterias();
+            renderizarRecursos();
+            renderizarGaleria('todas');
+            initGalleryFilters();
+            renderizarNoticias();
+            actualizarLinkActivo();
+            setTimeout(() => {
+                document.querySelectorAll(
+                        '.card, .project-card, .news-card, .gallery-item, .timeline-item, .guarani-section, .materia-card, .recurso-card, .mural-destacado, .conversacion-guarani, .sub-seccion'
+                        )
+                    .forEach(el => { el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)'; });
+            }, 250);
+        });
+
+        // Back to top
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 500));
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    </script>
+</body>
+</html>
